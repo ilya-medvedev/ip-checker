@@ -1,22 +1,17 @@
 package medvedev.ilya.checker.ip.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UncheckedIOException;
 import java.net.URL;
 
-@Component
 public class IpService {
     private final URL url;
 
-    @Autowired
-    public IpService(@Value("${ip.service.url}") final URL url) {
+    public IpService(final URL url) {
         this.url = url;
     }
 
@@ -29,7 +24,7 @@ public class IpService {
         ) {
             return in.readLine();
         } catch (final IOException e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
     }
 }

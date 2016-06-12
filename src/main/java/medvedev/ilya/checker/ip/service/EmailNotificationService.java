@@ -1,24 +1,19 @@
 package medvedev.ilya.checker.ip.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.stereotype.Component;
 
-@Component
 public class EmailNotificationService {
     private final MailSender mailSender;
     private final String from;
     private final String to;
     private final String subject;
 
-    @Autowired
     public EmailNotificationService(
             final MailSender mailSender,
-            @Value("${notification.email.from}") final String from,
-            @Value("${notification.email.to}") final String to,
-            @Value("${notification.email.subject}") final String subject
+            final String from,
+            final String to,
+            final String subject
     ) {
         this.mailSender = mailSender;
         this.from = from;

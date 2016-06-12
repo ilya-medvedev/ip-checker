@@ -4,9 +4,6 @@ import medvedev.ilya.checker.ip.service.EmailNotificationService;
 import medvedev.ilya.checker.ip.service.IpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -14,7 +11,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-@Component
 public class IpChecker implements Closeable {
     private static final Logger LOGGER = LoggerFactory.getLogger(IpChecker.class);
 
@@ -26,12 +22,7 @@ public class IpChecker implements Closeable {
 
     private String ip = null;
 
-    @Autowired
-    public IpChecker(
-            final IpService ipService,
-            final EmailNotificationService notificationService,
-            @Value("${ip.checker.timeout}") final int timeout
-    ) {
+    public IpChecker(final IpService ipService, final EmailNotificationService notificationService, final int timeout) {
         this.ipService = ipService;
         this.notificationService = notificationService;
         this.timeout = timeout;
@@ -56,7 +47,7 @@ public class IpChecker implements Closeable {
     private void exceptionHandler() {
         try {
             checkIp();
-        }catch( final Exception e){
+        } catch(final Exception e) {
             final String message = e.getMessage();
 
             LOGGER.warn(message, e);
