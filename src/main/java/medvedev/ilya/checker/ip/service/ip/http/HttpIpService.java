@@ -1,20 +1,23 @@
-package medvedev.ilya.checker.ip.service;
+package medvedev.ilya.checker.ip.service.ip.http;
+
+import medvedev.ilya.checker.ip.service.ip.IpService;
+import medvedev.ilya.checker.ip.service.ip.IpServiceException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UncheckedIOException;
 import java.net.URL;
 
-public class IpService {
+public class HttpIpService implements IpService {
     private final URL url;
 
-    public IpService(final URL url) {
+    public HttpIpService(final URL url) {
         this.url = url;
     }
 
+    @Override
     public String currentIp() {
         try (
                 final InputStream inputStream = url.openConnection()
@@ -24,7 +27,7 @@ public class IpService {
         ) {
             return in.readLine();
         } catch (final IOException e) {
-            throw new UncheckedIOException(e);
+            throw new IpServiceException(e);
         }
     }
 }
