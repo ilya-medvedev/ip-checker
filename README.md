@@ -18,7 +18,7 @@ Build
 
 Run
 ---
-    java -jar target/ip-checker-${version}.jar ${properties}
+    java -jar target/ip-checker.jar ${properties}
 
 Properties
 ----------
