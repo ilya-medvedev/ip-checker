@@ -1,4 +1,4 @@
-edIP Checker
+IP Checker
 ==============
 
 Development Environment
