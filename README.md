@@ -1,4 +1,4 @@
-IP Checker
+edIP Checker
 ==============
 
 Development Environment
@@ -9,7 +9,7 @@ Development Environment
 
 Download
 --------
-    git clone git@github.com:ilya-medvedev/ip-checker.git
+    git clone git@github.com:imedvedko/ip-checker.git
 
 Build
 -----
