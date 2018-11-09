@@ -1,22 +1,21 @@
 package medvedev.ilya.checker.ip.service.checker.impl;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import medvedev.ilya.checker.ip.service.checker.CheckerService;
-import medvedev.ilya.checker.ip.service.notification.NotificationService;
-import medvedev.ilya.checker.ip.service.notification.NotificationServiceException;
 import medvedev.ilya.checker.ip.service.ip.IpService;
 import medvedev.ilya.checker.ip.service.ip.IpServiceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import medvedev.ilya.checker.ip.service.notification.NotificationService;
+import medvedev.ilya.checker.ip.service.notification.NotificationServiceException;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+@RequiredArgsConstructor
+@Slf4j
 public class IpCheckerService implements CheckerService, Closeable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(IpCheckerService.class);
-
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
 
     private final IpService ipService;
@@ -24,16 +23,6 @@ public class IpCheckerService implements CheckerService, Closeable {
     private final int timeout;
 
     private String ip = null;
-
-    public IpCheckerService(
-            final IpService ipService,
-            final NotificationService notificationService,
-            final int timeout
-    ) {
-        this.ipService = ipService;
-        this.notificationService = notificationService;
-        this.timeout = timeout;
-    }
 
     private void checkIp() {
         final String newIp = ipService.currentIp();
@@ -55,9 +44,9 @@ public class IpCheckerService implements CheckerService, Closeable {
         } catch (final IpServiceException | NotificationServiceException e) {
             final String message = e.getMessage();
 
-            LOGGER.warn(message, e);
+            log.warn(message, e);
         } catch (final Exception e) {
-            LOGGER.error("Unknown error.", e);
+            log.error("Unknown error.", e);
 
             executorService.shutdownNow();
         }
@@ -69,7 +58,7 @@ public class IpCheckerService implements CheckerService, Closeable {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         executorService.shutdown();
     }
 }

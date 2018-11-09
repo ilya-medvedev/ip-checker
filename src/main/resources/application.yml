@@ -1,0 +1,14 @@
+spring:
+  jmx.enabled: false
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    properties.mail.smtp.ssl.enable: true
+ip:
+  service.url: https://api.ipify.org
+  checker.timeout: 300
+notification:
+  email:
+    from: ${spring.mail.username}
+    to: ${spring.mail.username}
+    subject: Server

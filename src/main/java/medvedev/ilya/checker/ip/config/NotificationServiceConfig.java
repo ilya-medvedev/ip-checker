@@ -1,21 +1,30 @@
 package medvedev.ilya.checker.ip.config;
 
+import lombok.Setter;
 import medvedev.ilya.checker.ip.service.notification.NotificationService;
 import medvedev.ilya.checker.ip.service.notification.email.EmailNotificationService;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.MailSender;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotNull;
 
 @Configuration
+@ConfigurationProperties(prefix = "notification.email")
+@Setter
+@Validated
 public class NotificationServiceConfig {
+    @NotNull
+    private String from;
+    @NotNull
+    private String to;
+    @NotNull
+    private String subject;
+
     @Bean
-    public NotificationService notificationService(
-            final MailSender mailSender,
-            @Value("${notification.email.from}") final String from,
-            @Value("${notification.email.to}") final String to,
-            @Value("${notification.email.subject}") final String subject
-    ) {
+    public NotificationService notificationService(final MailSender mailSender) {
         return new EmailNotificationService(mailSender, from, to, subject);
     }
 }
